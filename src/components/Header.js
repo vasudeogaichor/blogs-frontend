@@ -3,7 +3,7 @@ const Header = () => {
         <header className="d-flex flex-wrap py-3 mb-4">
             <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">
+                    <a className="navbar-brand" href="/">
                         <img id="logo" src="logo.svg" alt="Posts Logo" width="30" height="28" />
                         Posts
                     </a>
@@ -13,7 +13,7 @@ const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Create</a>
+                                <a className="nav-link active" aria-current="page" href="/create">Create</a>
                             </li>
                         </ul>
                         <form className="d-flex" role="search">
