@@ -1,7 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./components/Header"
-import BlogList from "./components/BlogList"
+import PostList from "./components/PostList"
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <Header />
       <Router>
       <Routes>
-        <Route path='/' element={<BlogList />} />
+        <Route path='/' element={<PostList />} />
       </Routes>
       </Router>
     </div>
