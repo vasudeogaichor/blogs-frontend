@@ -3,7 +3,7 @@ import PostListItem from "./PostListItem"
 
 const API_URL = 'http://localhost:5000/posts';
 
-const getPosts = async () => {
+const listPosts = async () => {
     const res = await fetch(API_URL)
     const posts = await res.json()
     return posts.message
@@ -14,16 +14,16 @@ const PostList = () => {
     const [allPosts, setAllPosts] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchPosts = async () => {
             try {
-                const posts = await getPosts();
+                const posts = await listPosts();
                 setAllPosts(posts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
         };
 
-        fetchData();
+        fetchPosts();
     }, []);
 
     return (
