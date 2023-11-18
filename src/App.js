@@ -9,10 +9,12 @@ function App() {
     <div className="App">
       <Router>
       <Header />
+      <div class="container-fluid mt-5">
       <Routes>
         <Route path='/' element={<PostList />} />
         <Route path='/create' element={<PostCreate />} />
       </Routes>
+      </div>
       </Router>
     </div>
   );

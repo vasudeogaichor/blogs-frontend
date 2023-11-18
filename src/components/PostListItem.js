@@ -1,5 +1,5 @@
 const PostListItem = ({title, content, createdAt}) => {
-    const trimmedContent = content.trim(100)
+    const trimmedContent = content.slice(0, 500)
     return (
         <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div className="col p-4 d-flex flex-column position-static">
