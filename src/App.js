@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <Router>
       <Header />
-      <div className="container-fluid mt-5">
+      <div className="container-fluid mt-5 pt-3">
       <Routes>
         <Route path='/' element={<PostList />} />
         <Route path='/:postId' element={<PostDetail />} />

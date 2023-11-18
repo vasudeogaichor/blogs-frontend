@@ -1,17 +1,17 @@
 const PostCreate = () => {
     return (
         <>
-            <div className="container mt-5">
+            <div className="container-fluid ">
                 <h2 className="mb-4">Create a new post</h2>
 
                 <form>
                     <div className="mb-3">
-                        <label for="title" className="form-label h6">Title:</label>
+                        <label htmlFor="title" className="form-label h6">Title:</label>
                         <input type="text" className="form-control" id="title" placeholder="Enter title" />
                     </div>
 
                     <div className="mb-3">
-                        <label for="content" className="form-label h6">Content:</label>
+                        <label htmlFor="content" className="form-label h6">Content:</label>
                         <textarea className="form-control" id="content" rows="8" placeholder="Enter content"></textarea>
                     </div>
 
