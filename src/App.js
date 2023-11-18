@@ -7,8 +7,8 @@ import PostCreate from "./components/PostCreate"
 function App() {
   return (
     <div className="App">
-      <Header />
       <Router>
+      <Header />
       <Routes>
         <Route path='/' element={<PostList />} />
         <Route path='/create' element={<PostCreate />} />
