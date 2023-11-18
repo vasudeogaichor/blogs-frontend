@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:5000/posts';
 
 const getPost = async (id) => {
     const res = await fetch(`${API_URL}/${id}`);
-    console.log('res - ', res)
     const post = await res.json()
     return post.message
 }
@@ -25,7 +24,11 @@ const PostDetail = () => {
         };
 
         fetchPost();
-    }, []);
+    }, [postId]);
+
+    if (!currentPost) {
+        return null;
+    }
 
     return (
         <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

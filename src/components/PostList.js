@@ -28,7 +28,7 @@ const PostList = () => {
 
     return (
         <>
-            {allPosts.map((post) => <PostListItem key={post?.id} title={post?.title} content={post.content} createdAt={post.created_at} />)}
+            post.id && {allPosts.map((post) => <PostListItem key={post.id} id={post.id} title={post?.title} content={post.content} createdAt={post.created_at} />)}
         </>
     )
 }
