@@ -1,4 +1,31 @@
-const Header = () => {
+import { useState } from 'react'
+
+const API_URL = 'http://localhost:5000/posts';
+
+const searchPosts = async (query) => {
+    const res = await fetch(`${API_URL}/?query=${query}`)
+    const data = await res.json()
+    return data.message
+}
+
+const Header = ({setSearchResults}) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    console.log('searchTerm = ', searchTerm)
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // TODO - add check for empty search string and raise browser alert
+        searchPosts(searchTerm)
+            .then((result) => {
+                console.log('result', result)
+                setSearchTerm("")
+                setSearchResults(result)
+            })
+            .catch(error => {
+                console.error('Error creating post:', error);
+                // TODO - add red dismissable bootstrap alert
+            });;
+    };
+
     return (
         <header className="d-flex flex-wrap mb-4 fixed-top">
             <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid">
@@ -16,8 +43,8 @@ const Header = () => {
                                 <a className="nav-link active" aria-current="page" href="/create">Create</a>
                             </li>
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <form className="d-flex" role="search" onSubmit={handleSearch}>
+                            <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>

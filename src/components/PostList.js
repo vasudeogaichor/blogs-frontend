@@ -9,9 +9,16 @@ const listPosts = async () => {
     return posts.message
 }
 
-const PostList = () => {
+const PostList = ({searchResults}) => {
 
     const [allPosts, setAllPosts] = useState([]);
+
+    useEffect(() => {
+        if (searchResults.length > 0) {
+          setAllPosts(searchResults);
+        }
+      }, [searchResults]);
+
 
     useEffect(() => {
         const fetchPosts = async () => {
