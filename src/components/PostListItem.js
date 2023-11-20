@@ -7,7 +7,7 @@ const PostListItem = ({id, title, content, createdAt}) => {
                 <h3 className="mb-0">{title}</h3>
                 <div className="mb-1 text-muted">{createdAt}</div>
                 <p className="card-text mb-auto">{trimmedContent}</p>
-                <a href={`/${id}`} className="stretched-link">Continue reading</a>
+                <a href={`/${id}`}>Continue reading</a>
             </div>
         </div>
     )
