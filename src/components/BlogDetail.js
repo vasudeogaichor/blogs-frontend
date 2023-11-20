@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-const API_URL = 'http://localhost:5000/blogs';
-
-const getBlog = async (id) => {
-    const res = await fetch(`${API_URL}/${id}`);
-    const blog = await res.json()
-    return blog.message
-}
+import { getBlog } from '../apis/blogs';
 
 const BlogDetail = () => {
     const { blogId } = useParams();

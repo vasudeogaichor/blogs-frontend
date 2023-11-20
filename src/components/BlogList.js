@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import BlogListItem from "./BlogListItem"
-
-const API_URL = 'http://localhost:5000/blogs';
-
-const listBlogs = async () => {
-    const res = await fetch(API_URL)
-    const blogs = await res.json()
-    return blogs
-}
+import { listBlogs } from '../apis/blogs';
 
 const BlogList = ({searchResults}) => {
 

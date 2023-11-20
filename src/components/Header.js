@@ -1,19 +1,12 @@
 import { useState } from 'react'
-
-const API_URL = 'http://localhost:5000/blogs';
-
-const searchBlogs = async (query) => {
-    const res = await fetch(`${API_URL}/?query=${query}`)
-    const data = await res.json()
-    return data.message
-}
+import { listBlogs } from '../apis/blogs';
 
 const Header = ({setSearchResults}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const handleSearch = (e) => {
         e.preventDefault();
         // TODO - add check for empty search string and raise browser alert
-        searchBlogs(searchTerm)
+        listBlogs({query: searchTerm})
             .then((result) => {
                 setSearchTerm("")
                 setSearchResults(result)

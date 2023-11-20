@@ -1,18 +1,5 @@
 import { useState } from 'react'
-
-const API_URL = 'http://localhost:5000/blogs';
-
-const createBlog = async (blog) => {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify(blog),
-  });
-  const data = await res.json();
-  return data.message;
-}
+import { createBlog } from '../apis/blogs'
 
 const BlogCreate = () => {
   const [title, setTitle] = useState("")
