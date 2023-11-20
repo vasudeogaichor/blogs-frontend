@@ -1,20 +1,20 @@
 import { useState } from 'react'
 
-const API_URL = 'http://localhost:5000/posts';
+const API_URL = 'http://localhost:5000/blogs';
 
-const createPost = async (post) => {
+const createBlog = async (blog) => {
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
     },
-    body: JSON.stringify(post),
+    body: JSON.stringify(blog),
   });
   const data = await res.json();
   return data.message;
 }
 
-const PostCreate = () => {
+const BlogCreate = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [showModal, setShowModal] = useState(false)
@@ -25,8 +25,6 @@ const PostCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('title - ', title)
-    console.log('content - ', content)
     if (!title.trim().length) {
       alert('Please add a title')
       return
@@ -37,22 +35,21 @@ const PostCreate = () => {
       return
     }
 
-    createPost({ title, content })
-      .then(newPost => {
-        console.log('newPost', newPost);
+    createBlog({ title, content })
+      .then(newBlog => {
         setTitle("");
         setContent("");
         setShowModal(true);
       })
       .catch(error => {
-        console.error('Error creating post:', error);
+        console.error('Error creating blog:', error);
       });
   }
 
   return (
     <>
       <div className="container-fluid ">
-        <h2 className="mb-4">Create a new post</h2>
+        <h2 className="mb-4">Create a new blog</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -90,7 +87,7 @@ const PostCreate = () => {
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModal}></button>
               </div>
               <div className="modal-body">
-                <p>You post has been successfully created!</p>
+                <p>You blog has been successfully created!</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeModal}>Close</button>
@@ -102,4 +99,4 @@ const PostCreate = () => {
   )
 }
 
-export default PostCreate
+export default BlogCreate

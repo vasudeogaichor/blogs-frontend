@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const API_URL = 'http://localhost:5000/posts';
+const API_URL = 'http://localhost:5000/blogs';
 
-const searchPosts = async (query) => {
+const searchBlogs = async (query) => {
     const res = await fetch(`${API_URL}/?query=${query}`)
     const data = await res.json()
     return data.message
@@ -14,14 +14,14 @@ const Header = ({setSearchResults}) => {
     const handleSearch = (e) => {
         e.preventDefault();
         // TODO - add check for empty search string and raise browser alert
-        searchPosts(searchTerm)
+        searchBlogs(searchTerm)
             .then((result) => {
                 console.log('result', result)
                 setSearchTerm("")
                 setSearchResults(result)
             })
             .catch(error => {
-                console.error('Error creating post:', error);
+                console.error('Error creating blog:', error);
                 // TODO - add red dismissable bootstrap alert
             });;
     };
@@ -31,8 +31,8 @@ const Header = ({setSearchResults}) => {
             <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">
-                        <img id="logo" src="logo.svg" alt="Posts Logo" width="30" height="28" />
-                        Posts
+                        <img id="logo" src="logo.svg" alt="Blogs Logo" width="30" height="28" />
+                        Blogs
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>

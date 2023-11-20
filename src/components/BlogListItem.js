@@ -1,4 +1,4 @@
-const PostListItem = ({id, title, content, createdAt}) => {
+const BlogListItem = ({id, title, content, createdAt}) => {
     const trimmedContent = content.slice(0, 500)
     
     return (
@@ -13,4 +13,4 @@ const PostListItem = ({id, title, content, createdAt}) => {
     )
 }
 
-export default PostListItem
+export default BlogListItem
