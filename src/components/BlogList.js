@@ -6,7 +6,7 @@ const API_URL = 'http://localhost:5000/blogs';
 const listBlogs = async () => {
     const res = await fetch(API_URL)
     const blogs = await res.json()
-    return blogs.message
+    return blogs
 }
 
 const BlogList = ({searchResults}) => {
@@ -24,7 +24,7 @@ const BlogList = ({searchResults}) => {
         const fetchBlogs = async () => {
             try {
                 const blogs = await listBlogs();
-                setAllBlogs(blogs);
+                setAllBlogs(blogs.data);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
             }
