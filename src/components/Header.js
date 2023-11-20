@@ -10,13 +10,11 @@ const searchBlogs = async (query) => {
 
 const Header = ({setSearchResults}) => {
     const [searchTerm, setSearchTerm] = useState('');
-    console.log('searchTerm = ', searchTerm)
     const handleSearch = (e) => {
         e.preventDefault();
         // TODO - add check for empty search string and raise browser alert
         searchBlogs(searchTerm)
             .then((result) => {
-                console.log('result', result)
                 setSearchTerm("")
                 setSearchResults(result)
             })
