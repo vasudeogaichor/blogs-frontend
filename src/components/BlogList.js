@@ -28,7 +28,7 @@ const BlogList = ({searchResults}) => {
 
     return (
         <>
-            {allBlogs.map((blog) => <BlogListItem key={blog.id} id={blog.id} title={blog?.title} content={blog.content} createdAt={blog.created_at} />)}
+            {allBlogs?.map((blog) => <BlogListItem key={blog.id} id={blog.id} title={blog?.title} content={blog.content} createdAt={blog.created_at} />)}
         </>
     )
 }
