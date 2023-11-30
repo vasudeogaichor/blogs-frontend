@@ -33,6 +33,10 @@ This is a React-based web application that allows users to perform CRUD operatio
     ```bash
     npm install
     ```
+4. Create a .env file with following format:
+    ```
+    REACT_APP_API_URL=http://localhost:5000/blogs
+    ```
 
 ## Usage
 1. Start the development server:
