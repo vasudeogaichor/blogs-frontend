@@ -5,9 +5,11 @@ import Header from "./components/Header"
 import BlogList from "./components/BlogList"
 import BlogCreate from "./components/BlogCreate"
 import BlogDetail from "./components/BlogDetail"
+import LoginPage from './components/LoginPage';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   return (
     <div className="App">
@@ -15,9 +17,10 @@ function App() {
       <Header setSearchResults={setSearchResults} />
       <div className="container-fluid mt-5 pt-3">
       <Routes>
-        <Route path='/' element={<BlogList searchResults={searchResults} />} />
+        <Route path='/' element={<BlogList searchResults={searchResults} isAuthenticated={isAuthenticated} />} />
         <Route path='/:blogId' element={<BlogDetail />} />
-        <Route path='/create' element={<BlogCreate />} />
+        <Route path='/create' element={<BlogCreate isAuthenticated={isAuthenticated} />} />
+        <Route path='/login' element={<LoginPage setIsAuthenticated={setIsAuthenticated}/>} />
       </Routes>
       </div>
       </Router>

@@ -36,6 +36,8 @@ This is a React-based web application that allows users to perform CRUD operatio
 4. Create a .env file with following format:
     ```
     REACT_APP_API_URL=http://localhost:5000/blogs
+    REACT_APP_USERNAME=admin
+    REACT_APP_PASSWORD=password
     ```
 
 ## Usage
