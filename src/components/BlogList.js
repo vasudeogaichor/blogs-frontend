@@ -36,6 +36,7 @@ const BlogList = ({isAuthenticated, searchResults}) => {
             title={blog?.title}
             content={blog.content}
             createdAt={blog.created_at}
+            setAllBlogs={setAllBlogs}
           />
         ))}
       </>
