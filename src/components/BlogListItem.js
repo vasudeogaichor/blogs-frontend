@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { formatDateTime } from "../utils";
-import { Alert } from "react-bootstrap";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import { deleteBlog } from "../apis/blogs";
 import { listBlogs } from '../apis/blogs';
 
-const BlogListItem = ({ id, title, content, createdAt, isAuthenticated, setAllBlogs }) => {
-  const [visible, setVisible] = useState(false);
+const BlogListItem = ({ id, title, content, createdAt, isAuthenticated, setAllBlogs, setShowDeleteAlert, setAlertVariant, setDeleteAlertMessage, visible }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [deleteAlertMessage, setDeleteAlertMessage] = useState("");
-  const [notificationVariant, setNotificationVariant] = useState('');
-
   const trimmedContent = content.slice(0, 500);
 
   const handleDeleteButtonClicked = () => {
@@ -26,50 +20,29 @@ const BlogListItem = ({ id, title, content, createdAt, isAuthenticated, setAllBl
     deleteBlog(id)
       .then((status) => {
         if (status === 204) {
-          setNotificationVariant("success")
+          setAlertVariant("success")
           setDeleteAlertMessage("Blog deleted successfully!");
           setShowDeleteAlert(true);
+          listBlogs()
+            .then((blogs) => {
+              setAllBlogs(blogs.data);
+            })
+            .catch((error) =>
+              console.log("Error: Error getting blogs: ", error)
+            );
         } else {
-          setNotificationVariant("danger")
+          setAlertVariant("danger")
           setDeleteAlertMessage("Error while deleting!");
           setShowDeleteAlert(true);
         }
       })
       .catch((error) => {
-        setNotificationVariant("danger")
+        setAlertVariant("danger")
         setDeleteAlertMessage("Error while deleting!");
         setShowDeleteAlert(true);
         console.log("Error: Unable to delete blog", error);
       });
   };
-
-  useEffect(() => {
-    let timer;
-    if (visible) {
-      timer = setTimeout(() => {
-        setVisible(false);
-      }, 3000);
-    }
-
-    return () => clearTimeout(timer);
-  }, [visible]);
-
-  useEffect(() => {
-    setVisible(showDeleteAlert);
-  }, [showDeleteAlert]);
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-        try {
-            const blogs = await listBlogs();
-            setAllBlogs(blogs.data);
-        } catch (error) {
-            console.error('Error fetching blogs:', error);
-        }
-    };
-
-    fetchBlogs();
-}, [visible]);
 
   return (
     <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -125,16 +98,6 @@ const BlogListItem = ({ id, title, content, createdAt, isAuthenticated, setAllBl
         closeModal={closeDeleteModal}
         handleDelete={handleDelete}
       />
-      <Alert
-        show={visible}
-        variant={notificationVariant}
-        onClose={() => {
-          setVisible(false)
-        }}
-        dismissible
-      >
-        {deleteAlertMessage}
-      </Alert>
     </div>
   );
 };
