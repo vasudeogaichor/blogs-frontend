@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import BlogListItem from "./BlogListItem"
 import { listBlogs } from '../apis/blogs';
 
-const BlogList = ({searchResults}) => {
+const BlogList = ({isAuthenticated, searchResults}) => {
 
     const [allBlogs, setAllBlogs] = useState([]);
 
@@ -27,10 +27,19 @@ const BlogList = ({searchResults}) => {
     }, []);
 
     return (
-        <>
-            {allBlogs?.map((blog) => <BlogListItem key={blog.id} id={blog.id} title={blog?.title} content={blog.content} createdAt={blog.created_at} />)}
-        </>
-    )
+      <>
+        {allBlogs?.map((blog) => (
+          <BlogListItem
+            key={blog.id}
+            isAuthenticated={isAuthenticated}
+            id={blog.id}
+            title={blog?.title}
+            content={blog.content}
+            createdAt={blog.created_at}
+          />
+        ))}
+      </>
+    );
 }
 
 export default BlogList
