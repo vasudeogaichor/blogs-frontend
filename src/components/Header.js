@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { listBlogs } from "../apis/blogs";
 
 const Header = ({ setSearchResults }) => {
@@ -45,22 +46,22 @@ const Header = ({ setSearchResults }) => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a
+                <Link
+                  to="/create"
                   className="nav-link active"
                   aria-current="page"
-                  href="/create"
                 >
                   Create
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a
+                <Link
+                  to="/login"
                   className="nav-link active"
                   aria-current="page"
-                  href="/login"
                 >
                   Login
-                </a>
+                </Link>
               </li>
             </ul>
             <form className="d-flex" role="search" onSubmit={handleSearch}>
