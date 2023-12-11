@@ -1,4 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL;
+console.log('process.env - ', process.env)
+console.log('API_URL - ', API_URL)
 
 // Create a new blog
 export const createBlog = async (blog) => {
