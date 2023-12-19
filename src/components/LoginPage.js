@@ -30,7 +30,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
     <div className="d-flex align-items-top justify-content-center vh-100">
       <Form className="w-50">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Username (admin)</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type="username"
             placeholder="Enter username"
@@ -40,7 +40,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password (password)</Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"

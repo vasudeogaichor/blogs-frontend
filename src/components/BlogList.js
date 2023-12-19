@@ -47,33 +47,35 @@ const BlogList = ({isAuthenticated, searchResults}) => {
     }, [showDeleteAlert]);
 
     return (
-      <>
-        <Alert
-        show={visible}
-        variant={alertVariant}
-        onClose={() => {
-          setVisible(false)
-        }}
-        dismissible
-      >
-        {deleteAlertMessage}
-      </Alert>
-        {allBlogs?.map((blog) => (
-          <BlogListItem
-            key={blog.id}
-            isAuthenticated={isAuthenticated}
-            id={blog.id}
-            title={blog?.title}
-            content={blog.content}
-            createdAt={blog.created_at}
-            setAllBlogs={setAllBlogs}
-            setShowDeleteAlert={setShowDeleteAlert}
-            setDeleteAlertMessage={setDeleteAlertMessage}
-            setAlertVariant={setAlertVariant}
-            visible={visible}
-          />
-        ))}
-      </>
+      isAuthenticated && (
+        <>
+          <Alert
+            show={visible}
+            variant={alertVariant}
+            onClose={() => {
+              setVisible(false)
+            }}
+            dismissible
+          >
+            {deleteAlertMessage}
+          </Alert>
+          {allBlogs?.map((blog) => (
+            <BlogListItem
+              key={blog.id}
+              isAuthenticated={isAuthenticated}
+              id={blog.id}
+              title={blog?.title}
+              content={blog.content}
+              createdAt={blog.created_at}
+              setAllBlogs={setAllBlogs}
+              setShowDeleteAlert={setShowDeleteAlert}
+              setDeleteAlertMessage={setDeleteAlertMessage}
+              setAlertVariant={setAlertVariant}
+              visible={visible}
+            />
+          ))}
+        </>
+      )
     );
 }
 

@@ -1,10 +1,10 @@
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = `${process.env.REACT_APP_API_URL}/posts`;
 
 // Create a new blog
 export const createBlog = async (blog) => {
   const res = await fetch(API_URL, {
     method: "POST",
-    headers: {
+    headers: {  
       "Content-type": "application/json",
     },
     body: JSON.stringify(blog),
