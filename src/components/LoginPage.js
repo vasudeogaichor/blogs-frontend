@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Cookies from "js-cookie";
 
 import { loginUser } from "../apis/users";
 
@@ -21,6 +22,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
         setLoginError(null);
       }, 3000);
     } else {
+      Cookies.set("token", loginResult.data.token, { expires: 1 });
       setIsAuthenticated(true);
       navigate("/");
     }
