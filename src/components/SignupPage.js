@@ -12,7 +12,7 @@ const SignUpPage = ({ setIsAuthenticated }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [email, setEmail] = useState("");
-  const [signupError, setSignupError] = useState("");
+  const [signupError, setSignupError] = useState(null);
 
   const handleSignUp = async () => {
     // Check if passwords match

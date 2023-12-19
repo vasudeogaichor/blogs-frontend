@@ -20,5 +20,5 @@ export const loginUser = async (loginDetails) => {
     },
     body: JSON.stringify(loginDetails),
   });
-  return res;
+  return await res.json();
 };

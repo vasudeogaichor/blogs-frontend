@@ -3,22 +3,26 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
+import { loginUser } from "../apis/users";
+
 const LoginPage = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(null);
 
-  const handleLogin = () => {
-    // In a real application, you'd perform server-side authentication here
-    // For simplicity, we'll use a basic check in this example
-    if (
-      username === process.env.REACT_APP_USERNAME &&
-      password === process.env.REACT_APP_PASSWORD
-    ) {
+  const handleLogin = async () => {
+    const userDetails = { username, password };
+    const loginResult = await loginUser(userDetails);
+    console.log('loginResult - ', loginResult)
+    if (loginResult?.Error) {
+      setLoginError(loginResult.Error);
+      setTimeout(() => {
+        setLoginError(null);
+      }, 3000);
+    } else {
       setIsAuthenticated(true);
       navigate("/");
-    } else {
-      alert("Invalid username or password");
     }
   };
 
@@ -49,10 +53,16 @@ const LoginPage = ({ setIsAuthenticated }) => {
         </Button>
         <p className="mt-2">
           Don't have an account?{" "}
-          <span onClick={() => navigate("/signup")} style={{ cursor: "pointer", color: "blue" }}>
+          <span
+            onClick={() => navigate("/signup")}
+            style={{ cursor: "pointer", color: "blue" }}
+          >
             Sign up here
           </span>
         </p>
+        {loginError?.length && (
+          <div className="alert alert-danger">{loginError}</div>
+        )}
       </Form>
     </div>
   );
