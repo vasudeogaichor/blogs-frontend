@@ -3,21 +3,35 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const SignUpPage = () => {
+import { signupUser } from "../apis/users";
+
+const SignUpPage = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [email, setEmail] = useState("");
+  const [signupError, setSignupError] = useState("");
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // Check if passwords match
     if (password !== confirmPassword) {
-        setPasswordMatchError(true);
-        return;
-      }
-    
-    navigate("/");
+      setPasswordMatchError(true);
+      return;
+    }
+    setPasswordMatchError(false);
+    const userDetails = { username, password, email };
+    const signupResult = await signupUser(userDetails);
+    if (signupResult?.Error) {
+      setSignupError(signupResult.Error);
+      setTimeout(() => {
+        setSignupError(null);
+      }, 3000);
+    } else {
+      setIsAuthenticated(true);
+      navigate("/");
+    }
   };
 
   return (
@@ -30,6 +44,16 @@ const SignUpPage = () => {
             placeholder="Enter username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
 
@@ -51,8 +75,10 @@ const SignUpPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-           {passwordMatchError && (
-            <Form.Text className="text-danger">Passwords do not match</Form.Text>
+          {passwordMatchError && (
+            <Form.Text className="text-danger">
+              Passwords do not match
+            </Form.Text>
           )}
         </Form.Group>
 
@@ -62,10 +88,16 @@ const SignUpPage = () => {
 
         <p className="mt-2">
           Already have an account?{" "}
-          <span onClick={() => navigate("/login")} style={{ cursor: "pointer", color: "blue" }}>
+          <span
+            onClick={() => navigate("/login")}
+            style={{ cursor: "pointer", color: "blue" }}
+          >
             Log in here
           </span>
         </p>
+        {signupError?.length && (
+          <div className="alert alert-danger">{signupError}</div>
+        )}
       </Form>
     </div>
   );

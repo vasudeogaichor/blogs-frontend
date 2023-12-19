@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { listBlogs } from "../apis/blogs";
 
-const Header = ({ setSearchResults }) => {
+const Header = ({ isAuthenticated, setSearchResults }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e) => {
     e.preventDefault();
@@ -54,7 +54,8 @@ const Header = ({ setSearchResults }) => {
                   Create
                 </Link>
               </li>
-              <li className="nav-item">
+              {!isAuthenticated && (
+                <li className="nav-item">
                 <Link
                   to="/login"
                   className="nav-link active"
@@ -63,6 +64,7 @@ const Header = ({ setSearchResults }) => {
                   Login
                 </Link>
               </li>
+              )}
             </ul>
             <form className="d-flex" role="search" onSubmit={handleSearch}>
               <input

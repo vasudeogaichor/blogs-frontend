@@ -15,14 +15,14 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <Header setSearchResults={setSearchResults} />
+      <Header setSearchResults={setSearchResults} isAuthenticated={isAuthenticated} />
       <div className="container-fluid mt-5 pt-3">
       <Routes>
         <Route path='/' element={<BlogList searchResults={searchResults} isAuthenticated={isAuthenticated} />} />
         <Route path='/:blogId' element={<BlogDetail />} />
         <Route path='/create' element={<BlogCreate isAuthenticated={isAuthenticated} />} />
         <Route path='/login' element={<LoginPage setIsAuthenticated={setIsAuthenticated}/>} />
-        <Route path='/signup' element={<SignUpPage />} />
+        <Route path='/signup' element={<SignUpPage setIsAuthenticated={setIsAuthenticated} />} />
       </Routes>
       </div>
       </Router>

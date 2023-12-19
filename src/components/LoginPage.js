@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import NavLink from 'react-bootstrap/NavLink'
 import Form from "react-bootstrap/Form";
 
 const LoginPage = ({ setIsAuthenticated }) => {
