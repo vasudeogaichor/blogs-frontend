@@ -25,7 +25,7 @@ const Header = ({ setSearchResults }) => {
           <a className="navbar-brand" href="/">
             <img
               id="logo"
-              src="logo.svg"
+              src="./logo.svg"
               alt="Blogs Logo"
               width="30"
               height="28"

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LoginRequiredModal from "./Modals/LoginRequiredModal";
 import SuccessModal from "./Modals/SuccessModal";
 
-const BlogCreate = ({ isAuthenticated }) => {
+const BlogCreate = ({ isAuthenticated,  }) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

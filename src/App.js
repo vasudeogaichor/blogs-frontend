@@ -6,6 +6,7 @@ import BlogList from "./components/BlogList"
 import BlogCreate from "./components/BlogCreate"
 import BlogDetail from "./components/BlogDetail"
 import LoginPage from './components/LoginPage';
+import SignUpPage from './components/SignupPage';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
@@ -21,6 +22,7 @@ function App() {
         <Route path='/:blogId' element={<BlogDetail />} />
         <Route path='/create' element={<BlogCreate isAuthenticated={isAuthenticated} />} />
         <Route path='/login' element={<LoginPage setIsAuthenticated={setIsAuthenticated}/>} />
+        <Route path='/signup' element={<SignUpPage />} />
       </Routes>
       </div>
       </Router>
