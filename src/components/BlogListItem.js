@@ -64,9 +64,8 @@ const BlogListItem = ({
         <div className="mb-1 text-muted">{formatDateTime(createdAt)}</div>
         <p className="card-text mb-auto">{trimmedContent}</p>
         <a href={`/${id}`}>Continue reading</a>
-        {/* <div className="d-flex justify-content-between mt-2"> */}
-          <div className="d-flex justify-content-between">
-            <div className="d-flex flex-row">
+        <div className="d-flex justify-content-between">
+          <div className="d-flex flex-row">
             <button
               type="button"
               className="btn btn-outline-secondary"
@@ -81,8 +80,8 @@ const BlogListItem = ({
             >
               Comment ({comments})
             </button>
-            </div>
-            <div className="d-flex flex-row-reverse">
+          </div>
+          <div className="d-flex flex-row-reverse">
             <button
               type="button"
               className="btn btn-outline-secondary"
@@ -116,16 +115,8 @@ const BlogListItem = ({
                 />
               </svg>
             </button>
-            </div>
           </div>
-        {/* </div> */}
-        {/* {isAuthenticated && ( */}
-        {/* <div className="mt-auto"> */}
-        <div className="d-flex justify-content-between">
-
         </div>
-        {/* </div> */}
-        {/* )} */}
       </div>
       <DeleteConfirmationModal
         showModal={showDeleteModal}
