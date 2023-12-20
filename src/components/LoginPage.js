@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -15,7 +15,6 @@ const LoginPage = ({ setIsAuthenticated }) => {
   const handleLogin = async () => {
     const userDetails = { username, password };
     const loginResult = await loginUser(userDetails);
-    console.log('loginResult - ', loginResult)
     if (loginResult?.Error) {
       setLoginError(loginResult.Error);
       setTimeout(() => {
