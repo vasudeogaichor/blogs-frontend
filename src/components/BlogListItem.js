@@ -3,6 +3,8 @@ import { formatDateTime } from "../utils";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import { deleteBlog } from "../apis/blogs";
 import { listBlogs } from "../apis/blogs";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { BiCommentDetail, BiSolidCommentDetail } from "react-icons/bi";
 
 const BlogListItem = ({
   id,
@@ -71,14 +73,14 @@ const BlogListItem = ({
               className="btn btn-outline-secondary"
               onClick={() => setLikes(likes + 1)}
             >
-              Like ({likes})
+              <AiOutlineLike /> ({likes})
             </button>
             <button
               type="button"
               className="btn btn-outline-secondary"
               onClick={() => setComments(comments + 1)}
             >
-              Comment ({comments})
+              <BiCommentDetail /> ({comments})
             </button>
           </div>
           <div className="d-flex flex-row-reverse">
@@ -86,7 +88,7 @@ const BlogListItem = ({
               type="button"
               className="btn btn-outline-secondary"
               onClick={handleDeleteButtonClicked}
-            >
+            > 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -128,3 +130,4 @@ const BlogListItem = ({
 };
 
 export default BlogListItem;
+// TODO - Move svg files to separate files
