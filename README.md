@@ -45,6 +45,6 @@ This is a React-based web application that allows users to perform CRUD operatio
     ```
     npm start
     ```
-2. Open your browser and visit http://localhost:3000.
+2. Open your browser and visit http://localhost:3002.
 
 3. Interact with the application to manage blogs.
