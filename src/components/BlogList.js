@@ -85,10 +85,7 @@ const BlogList = ({isAuthenticated, setIsAuthenticated, searchResults}) => {
               <BlogListItem
                 key={blog.id}
                 isAuthenticated={isAuthenticated}
-                id={blog.id}
-                title={blog?.title}
-                content={blog.content}
-                createdAt={blog.created_at}
+                blog={blog}
                 setAllBlogs={setAllBlogs}
                 setShowDeleteAlert={setShowDeleteAlert}
                 setDeleteAlertMessage={setDeleteAlertMessage}

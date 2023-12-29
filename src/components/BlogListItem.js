@@ -5,12 +5,10 @@ import { deleteBlog } from "../apis/blogs";
 import { listBlogs } from "../apis/blogs";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { BiCommentDetail, BiSolidCommentDetail } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const BlogListItem = ({
-  id,
-  title,
-  content,
-  createdAt,
+  blog,
   isAuthenticated,
   setAllBlogs,
   setShowDeleteAlert,
@@ -18,10 +16,12 @@ const BlogListItem = ({
   setDeleteAlertMessage,
   visible,
 }) => {
+  const {id, content, createdAt, title, likes, comments } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const trimmedContent = content.slice(0, 500);
-  const [likes, setLikes] = useState(5);
-  const [comments, setComments] = useState(5);
+  const [blogLikes, setBlogLikes] = useState(likes.length);
+  const [blogComments, setBlogComments] = useState(comments.length);
+  const navigate = useNavigate();
 
   const handleDeleteButtonClicked = () => {
     setShowDeleteModal(true);
@@ -71,16 +71,16 @@ const BlogListItem = ({
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setLikes(likes + 1)}
+              onClick={() => setBlogLikes(blogLikes + 1)}
             >
-              <AiOutlineLike /> ({likes})
+              <AiOutlineLike /> ({blogLikes})
             </button>
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setComments(comments + 1)}
+              onClick={() => setBlogComments(blogComments + 1)}
             >
-              <BiCommentDetail /> ({comments})
+              <BiCommentDetail /> ({blogComments})
             </button>
           </div>
           <div className="d-flex flex-row-reverse">
@@ -88,7 +88,7 @@ const BlogListItem = ({
               type="button"
               className="btn btn-outline-secondary"
               onClick={handleDeleteButtonClicked}
-            > 
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -101,7 +101,13 @@ const BlogListItem = ({
                 <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
               </svg>
             </button>
-            <button type="button" className="btn btn-outline-secondary">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={() => {
+                navigate(`/${id}/edit`);
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
