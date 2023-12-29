@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
@@ -30,6 +31,7 @@ const SignUpPage = ({ setIsAuthenticated }) => {
       }, 3000);
     } else {
       setIsAuthenticated(true);
+      Cookies.set("token", signupResult.data.token, { expires: 1 });
       navigate("/");
     }
   };
