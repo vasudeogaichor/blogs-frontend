@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import LoginRequiredModal from "./Modals/LoginRequiredModal";
 import SuccessModal from "./Modals/SuccessModal";
 
-const BlogCreate = ({ isAuthenticated,  }) => {
+const BlogCreate = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setShowLoginModal(true);
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     setShowLoginModal(true);
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   const closeLoginModal = () => {
     navigate("/");

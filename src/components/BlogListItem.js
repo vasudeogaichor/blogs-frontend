@@ -9,12 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 const BlogListItem = ({
   blog,
-  isAuthenticated,
   setAllBlogs,
   setShowDeleteAlert,
   setAlertVariant,
   setDeleteAlertMessage,
-  visible,
 }) => {
   const {id, content, createdAt, title, likes, comments } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);

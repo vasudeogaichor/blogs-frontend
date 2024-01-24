@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { signupUser } from "../apis/users";
+import { setLocaUser } from "../libs/localUserUtils";
 
-const SignUpPage = ({ setIsAuthenticated }) => {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -30,8 +30,7 @@ const SignUpPage = ({ setIsAuthenticated }) => {
         setSignupError(null);
       }, 3000);
     } else {
-      setIsAuthenticated(true);
-      Cookies.set("token", signupResult.data.token, { expires: 1 });
+      setLocaUser(signupResult.data)
       navigate("/");
     }
   };
