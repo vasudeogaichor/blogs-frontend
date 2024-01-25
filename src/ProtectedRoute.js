@@ -3,9 +3,9 @@ import { useAuth } from "./AuthContext";
 import LoginRequiredModal from "./components/Modals/LoginRequiredModal";
 
 export const ProtectedRoute = ({ children }) => {
-  const { user_id } = useAuth();
+  const { user } = useAuth();
   
-  const showLoginModal = !user_id;
+  const showLoginModal = !user;
 
   return showLoginModal ? (
     <LoginRequiredModal showModal={showLoginModal}/>
