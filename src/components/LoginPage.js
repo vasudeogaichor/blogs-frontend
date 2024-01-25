@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import Cookies from "js-cookie";
 
+import { setLocaUser } from "../libs/localUserUtils";
 import { loginUser } from "../apis/users";
+import { useAuth } from "../AuthContext"
 
-const LoginPage = ({ setIsAuthenticated }) => {
+const LoginPage = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,8 +23,8 @@ const LoginPage = ({ setIsAuthenticated }) => {
         setLoginError(null);
       }, 3000);
     } else {
-      Cookies.set("token", loginResult.data.token, { expires: 1 });
-      setIsAuthenticated(true);
+      setLocaUser(loginResult.data)
+      login(loginResult.data)
       navigate("/");
     }
   };

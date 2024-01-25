@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
 import { signupUser } from "../apis/users";
+import { setLocaUser } from "../libs/localUserUtils";
+import {useAuth} from "../AuthContext"
 
-const SignUpPage = ({ setIsAuthenticated }) => {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +15,7 @@ const SignUpPage = ({ setIsAuthenticated }) => {
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [email, setEmail] = useState("");
   const [signupError, setSignupError] = useState(null);
+  const { login } = useAuth();
 
   const handleSignUp = async () => {
     // Check if passwords match
@@ -21,17 +23,19 @@ const SignUpPage = ({ setIsAuthenticated }) => {
       setPasswordMatchError(true);
       return;
     }
+
     setPasswordMatchError(false);
     const userDetails = { username, password, email };
     const signupResult = await signupUser(userDetails);
+
     if (signupResult?.Error) {
       setSignupError(signupResult.Error);
       setTimeout(() => {
         setSignupError(null);
       }, 3000);
     } else {
-      setIsAuthenticated(true);
-      Cookies.set("token", signupResult.data.token, { expires: 1 });
+      setLocaUser(signupResult.data)
+      login(signupResult.data);
       navigate("/");
     }
   };
