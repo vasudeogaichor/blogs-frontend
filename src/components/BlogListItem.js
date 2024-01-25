@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { formatDateTime } from "../utils";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
-import { deleteBlog } from "../apis/blogs";
-import { listBlogs } from "../apis/blogs";
+import { deleteBlog, listBlogs, likeBlog } from "../apis/blogs";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { BiCommentDetail, BiSolidCommentDetail } from "react-icons/bi";
 import LikeIcon from "../assets/DeleteIcon";
@@ -15,6 +14,7 @@ const BlogListItem = ({
   setShowDeleteAlert,
   setAlertVariant,
   setDeleteAlertMessage,
+  loggedInUser
 }) => {
   const {id, content, createdAt, title, likes, comments } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -59,6 +59,21 @@ const BlogListItem = ({
       });
   };
 
+  const handleLike = () => {
+    if (loggedInUser) {
+      const action = likes.includes(loggedInUser.userId) ? 'remove' : 'add'
+
+      likeBlog(id, { userId: loggedInUser.userId, action })
+        .then((likesCount) => {
+          console.log('likesCount - ', likesCount)
+          setBlogLikes(likesCount)
+        })
+        .catch(err => {
+          console.log('Error: Error while adding/removing like: ', err)
+        })
+    }
+  }
+
   return (
     <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div className="col p-4 d-flex flex-column position-static">
@@ -71,7 +86,7 @@ const BlogListItem = ({
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setBlogLikes(blogLikes + 1)}
+              onClick={handleLike}
             >
               <AiOutlineLike /> ({blogLikes})
             </button>

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import BlogListItem from "./BlogListItem";
 import { listBlogs } from "../apis/blogs";
+import { useAuth } from "../AuthContext";
 
 const BlogList = ({ searchResults }) => {
   const [allBlogs, setAllBlogs] = useState([]);
+  const { user: loggedInUser } = useAuth();
 
   useEffect(() => {
     if (searchResults.length > 0) {
@@ -31,6 +33,7 @@ const BlogList = ({ searchResults }) => {
           key={blog.id}
           blog={blog}
           setAllBlogs={setAllBlogs}
+          loggedInUser={loggedInUser}
         />
       ))}
     </>
