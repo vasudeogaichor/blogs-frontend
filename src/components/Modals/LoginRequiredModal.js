@@ -1,7 +1,15 @@
 import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
-const LoginRequiredModal = ({ showModal, closeModal }) => {
+const LoginRequiredModal = ({ showModal }) => {
+  const navigate = useNavigate();
+  
+  const closeModal = () => {
+    navigate("/login");
+    // setShowLoginModal(false);
+  };
+
   return (
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
