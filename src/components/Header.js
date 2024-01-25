@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { listBlogs } from "../apis/blogs";
+import { useAuth } from "../AuthContext";
 
-const Header = ({ isAuthenticated, setSearchResults }) => {
+const Header = ({ setSearchResults }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const { user, logout } = useAuth();
+
   const handleSearch = (e) => {
     e.preventDefault();
     // TODO - add check for empty search string and raise browser alert
@@ -13,10 +17,16 @@ const Header = ({ isAuthenticated, setSearchResults }) => {
         setSearchResults(result);
       })
       .catch((error) => {
-        console.error("Error creating blog:", error);
+        console.error("Error in searching blogs:", error);
         // TODO - add red dismissable bootstrap alert
       });
   };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    navigate('/')
+  }
 
   return (
     <header className="d-flex flex-wrap mb-4 fixed-top">
@@ -54,16 +64,18 @@ const Header = ({ isAuthenticated, setSearchResults }) => {
                   Create
                 </Link>
               </li>
-              {!isAuthenticated && (
+              {!user ? (
                 <li className="nav-item">
-                <Link
-                  to="/login"
-                  className="nav-link active"
-                  aria-current="page"
-                >
-                  Login
-                </Link>
-              </li>
+                  <Link to="/login" className="nav-link active" aria-current="page">
+                    Login
+                  </Link>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <button onClick={handleLogout} className="nav-link active" aria-current="page">
+                    Logout
+                  </button>
+                </li>
               )}
             </ul>
             <form className="d-flex" role="search" onSubmit={handleSearch}>
