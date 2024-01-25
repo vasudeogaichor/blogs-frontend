@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+// TODO - move all of the uses of this hook to centralized function if possible
+// especially the uses in login and signup page
 export const useLocalStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
