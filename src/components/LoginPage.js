@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { setLocaUser } from "../libs/localUserUtils";
 
+import { setLocaUser } from "../libs/localUserUtils";
 import { loginUser } from "../apis/users";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const LoginPage = () => {
+  const [user, setUser] = useLocalStorage('user', null);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,6 +24,11 @@ const LoginPage = () => {
       }, 3000);
     } else {
       setLocaUser(loginResult.data)
+      setUser({
+        userId: loginResult.data.userId,
+        username: loginResult.data.username,
+        email: loginResult.data.email,
+      })
       navigate("/");
     }
   };

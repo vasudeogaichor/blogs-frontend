@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 
 import { signupUser } from "../apis/users";
 import { setLocaUser } from "../libs/localUserUtils";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const SignUpPage = () => {
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [email, setEmail] = useState("");
   const [signupError, setSignupError] = useState(null);
+  const [user, setUser] = useLocalStorage('user', null);
 
   const handleSignUp = async () => {
     // Check if passwords match
@@ -21,9 +23,11 @@ const SignUpPage = () => {
       setPasswordMatchError(true);
       return;
     }
+
     setPasswordMatchError(false);
     const userDetails = { username, password, email };
     const signupResult = await signupUser(userDetails);
+
     if (signupResult?.Error) {
       setSignupError(signupResult.Error);
       setTimeout(() => {
@@ -31,6 +35,11 @@ const SignUpPage = () => {
       }, 3000);
     } else {
       setLocaUser(signupResult.data)
+      setUser({
+        userId: signupResult.data.userId,
+        username: signupResult.data.username,
+        email: signupResult.data.email,
+      })
       navigate("/");
     }
   };
