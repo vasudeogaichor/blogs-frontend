@@ -1,12 +1,15 @@
-import { Navigate } from "react-router-dom";
+import React from "react";
 import { useAuth } from "./AuthContext";
+import LoginRequiredModal from "./components/Modals/LoginRequiredModal";
 
 export const ProtectedRoute = ({ children }) => {
   const { user_id } = useAuth();
   
-  if (!user_id) {
-    // user is not authenticated
-    return <Navigate to="/login" />;
-  }
-  return children;
+  const showLoginModal = !user_id;
+
+  return showLoginModal ? (
+    <LoginRequiredModal showModal={showLoginModal}/>
+  ) : (
+    <>{children}</>
+  );
 };
