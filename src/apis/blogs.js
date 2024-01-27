@@ -71,6 +71,5 @@ export const likeBlog = async (id, likeInfo) => {
     body: JSON.stringify(likeInfo),
   });
   const result = await res.json();
-  console.log('result - ', result)
-  return result.data.likes.length;
+  return result;
 }

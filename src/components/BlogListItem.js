@@ -2,11 +2,13 @@ import { useState } from "react";
 import { formatDateTime } from "../utils";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
 import { deleteBlog, listBlogs, likeBlog } from "../apis/blogs";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-import { BiCommentDetail, BiSolidCommentDetail } from "react-icons/bi";
+import { AiOutlineLike } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
+
 import LikeIcon from "../assets/DeleteIcon";
 import EditIcon from "../assets/EditIcon";
 import { useNavigate } from "react-router-dom";
+import LoginRequiredModal from "./Modals/LoginRequiredModal";
 
 const BlogListItem = ({
   blog,
@@ -21,6 +23,7 @@ const BlogListItem = ({
   const trimmedContent = content.slice(0, 500);
   const [blogLikes, setBlogLikes] = useState(likes.length);
   const [blogComments, setBlogComments] = useState(comments.length);
+  const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false);
   const navigate = useNavigate();
 
   const handleDeleteButtonClicked = () => {
@@ -64,9 +67,14 @@ const BlogListItem = ({
       const action = likes.includes(loggedInUser.userId) ? 'remove' : 'add'
 
       likeBlog(id, { userId: loggedInUser.userId, action })
-        .then((likesCount) => {
-          console.log('likesCount - ', likesCount)
-          setBlogLikes(likesCount)
+        .then((result) => {
+          if (result.Error) {
+            if (result.Error === 'Unauthorized - Invalid token') {
+              setShowLoginRequiredModal(true);
+            }
+          } else {
+            setBlogLikes(result.data.likes.length)
+          }
         })
         .catch(err => {
           console.log('Error: Error while adding/removing like: ', err)
@@ -123,9 +131,9 @@ const BlogListItem = ({
         closeModal={closeDeleteModal}
         handleDelete={handleDelete}
       />
+      <LoginRequiredModal showModal={showLoginRequiredModal}/>
     </div>
   );
 };
 
 export default BlogListItem;
-// TODO - Move svg files to separate files
