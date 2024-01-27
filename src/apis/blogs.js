@@ -60,7 +60,7 @@ export const deleteBlog = async (id) => {
 };
 
 // Like a blog
-export const likeBlog = async (id, likeInfo) => {
+export const handleBlogLike = async (id, likeInfo) => {
   const token = getAuthToken();
   const res = await fetch(`${API_URL}/${id}/likes`, {
     method: "POST",
@@ -69,6 +69,21 @@ export const likeBlog = async (id, likeInfo) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(likeInfo),
+  });
+  const result = await res.json();
+  return result;
+}
+
+// Add or remove a comment blog
+export const handleBlogComment = async (id, commentInfo) => {
+  const token = getAuthToken();
+  const res = await fetch(`${API_URL}/${id}/comments`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(commentInfo),
   });
   const result = await res.json();
   return result;
