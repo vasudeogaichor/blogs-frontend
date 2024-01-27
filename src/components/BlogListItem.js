@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { formatDateTime } from "../utils";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
-import { deleteBlog, listBlogs, likeBlog } from "../apis/blogs";
+import { deleteBlog, listBlogs, handleBlogLike, handleBlogComment } from "../apis/blogs";
 import { AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 
@@ -9,6 +9,7 @@ import LikeIcon from "../assets/DeleteIcon";
 import EditIcon from "../assets/EditIcon";
 import { useNavigate } from "react-router-dom";
 import LoginRequiredModal from "./Modals/LoginRequiredModal";
+import AddCommentModal from "./Modals/AddCommentModal";
 
 const BlogListItem = ({
   blog,
@@ -18,8 +19,9 @@ const BlogListItem = ({
   setDeleteAlertMessage,
   loggedInUser
 }) => {
-  const {id, content, createdAt, title, likes, comments } = blog;
+  const { id, content, createdAt, title, likes, comments } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const trimmedContent = content.slice(0, 500);
   const [blogLikes, setBlogLikes] = useState(likes.length);
   const [blogComments, setBlogComments] = useState(comments.length);
@@ -33,6 +35,10 @@ const BlogListItem = ({
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
+
+  const closeCommentModal = () => {
+    setShowAddCommentModal(false)
+  }
 
   const handleDelete = () => {
     deleteBlog(id)
@@ -62,11 +68,11 @@ const BlogListItem = ({
       });
   };
 
-  const handleLike = () => {
+  const handleAddRemoveLike = () => {
     if (loggedInUser) {
       const action = likes.includes(loggedInUser.userId) ? 'remove' : 'add'
 
-      likeBlog(id, { userId: loggedInUser.userId, action })
+      handleBlogLike(id, { userId: loggedInUser.userId, action })
         .then((result) => {
           if (result.Error) {
             if (result.Error === 'Unauthorized - Invalid token') {
@@ -82,6 +88,34 @@ const BlogListItem = ({
     }
   }
 
+  const addNewComment = (comment) => {
+    const commentPayload = {
+      action: 'add',
+      userId: loggedInUser.userId,
+      text: comment
+    }
+
+    handleBlogComment(id, commentPayload)
+      .then(result => {
+        if (result.Error) {
+          if (result.Error === 'Unauthorized - Invalid token') {
+            setShowLoginRequiredModal(true);
+          }
+        } else {
+          setBlogComments(result.data.comments.length)
+        }
+      })
+      .catch(error => {
+        console.log('Error while updating comments: ', error)
+      })
+  }
+
+  const handleCommentButtonClicked = () => {
+    if (loggedInUser) {
+      setShowAddCommentModal(true)
+    }
+  }
+
   return (
     <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div className="col p-4 d-flex flex-column position-static">
@@ -94,14 +128,14 @@ const BlogListItem = ({
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={handleLike}
+              onClick={handleAddRemoveLike}
             >
               <AiOutlineLike /> ({blogLikes})
             </button>
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setBlogComments(blogComments + 1)}
+              onClick={handleCommentButtonClicked}
             >
               <BiCommentDetail /> ({blogComments})
             </button>
@@ -112,7 +146,7 @@ const BlogListItem = ({
               className="btn btn-outline-secondary"
               onClick={handleDeleteButtonClicked}
             >
-            <LikeIcon />
+              <LikeIcon />
             </button>
             <button
               type="button"
@@ -121,7 +155,7 @@ const BlogListItem = ({
                 navigate(`/${id}/edit`);
               }}
             >
-            <EditIcon />
+              <EditIcon />
             </button>
           </div>
         </div>
@@ -131,7 +165,10 @@ const BlogListItem = ({
         closeModal={closeDeleteModal}
         handleDelete={handleDelete}
       />
-      <LoginRequiredModal showModal={showLoginRequiredModal}/>
+      <LoginRequiredModal showModal={showLoginRequiredModal} />
+      <AddCommentModal showModal={showAddCommentModal}
+        handleAddComment={addNewComment}
+        closeModal={closeCommentModal} />
     </div>
   );
 };
