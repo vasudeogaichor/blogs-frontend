@@ -2,7 +2,6 @@ import Cookies from "js-cookie";
 const API_URL = `${process.env.REACT_APP_API_URL}/posts`;
 
 const getAuthToken = () => {
-  // Replace "yourAuthTokenCookieName" with the actual name of your authentication token cookie
   return Cookies.get("token");
 };
 
@@ -59,3 +58,18 @@ export const deleteBlog = async (id) => {
   const status = res.status;
   return status;
 };
+
+// Like a blog
+export const likeBlog = async (id, likeInfo) => {
+  const token = getAuthToken();
+  const res = await fetch(`${API_URL}/${id}/likes`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(likeInfo),
+  });
+  const result = await res.json();
+  return result;
+}
