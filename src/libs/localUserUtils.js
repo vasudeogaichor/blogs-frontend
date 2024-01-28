@@ -7,3 +7,7 @@ export const setLocaUser = (data) => {
 export const removeLocalUser = () => {
     Cookies.remove('token')
 }
+
+export const getCookie = () => {
+    return Cookies.get('token')
+}

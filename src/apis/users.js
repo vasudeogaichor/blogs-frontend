@@ -22,3 +22,14 @@ export const loginUser = async (loginDetails) => {
   });
   return await res.json();
 };
+
+export const validateUserToken = async (token) => {
+  const response = await fetch(`${API_URL}/auth/validate-token`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  return await response.json();
+}
