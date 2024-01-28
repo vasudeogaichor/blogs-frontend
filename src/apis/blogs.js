@@ -29,7 +29,7 @@ export const getBlog = async (id) => {
     },
   });
   const blog = await res.json();
-  return blog.message;
+  return blog;
 };
 
 // List a number of blogs
