@@ -19,7 +19,7 @@ const BlogListItem = ({
   setDeleteAlertMessage,
   loggedInUser
 }) => {
-  const { id, content, createdAt, title, likes, comments } = blog;
+  const { id, content, createdAt, title, likes, comments, userId: createdByUserId } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const trimmedContent = content.slice(0, 500);
@@ -140,7 +140,7 @@ const BlogListItem = ({
               <BiCommentDetail /> ({blogComments})
             </button>
           </div>
-          <div className="d-flex flex-row-reverse">
+          {(loggedInUser?.userId === createdByUserId ) && (<div className="d-flex flex-row-reverse">
             <button
               type="button"
               className="btn btn-outline-secondary"
@@ -157,7 +157,7 @@ const BlogListItem = ({
             >
               <EditIcon />
             </button>
-          </div>
+          </div>)}
         </div>
       </div>
       <DeleteConfirmationModal
