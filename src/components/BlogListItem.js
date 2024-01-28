@@ -19,7 +19,7 @@ const BlogListItem = ({
   setDeleteAlertMessage,
   loggedInUser
 }) => {
-  const { id, content, createdAt, title, likes, comments } = blog;
+  const { id, content, createdAt, title, likes, comments, user: createdByUser } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const trimmedContent = content.slice(0, 500);
@@ -119,7 +119,8 @@ const BlogListItem = ({
   return (
     <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div className="col p-4 d-flex flex-column position-static">
-        <h3 className="mb-0">{title}</h3>
+        <h2 className="mb-0">{title}</h2>
+        <h6 className="fw-light">by {createdByUser.username}</h6>
         <div className="mb-1 text-muted">{formatDateTime(createdAt)}</div>
         <p className="card-text mb-auto">{trimmedContent}</p>
         <a href={`/${id}`}>Continue reading</a>
@@ -140,7 +141,7 @@ const BlogListItem = ({
               <BiCommentDetail /> ({blogComments})
             </button>
           </div>
-          <div className="d-flex flex-row-reverse">
+          {(loggedInUser?.userId === createdByUser._id ) && (<div className="d-flex flex-row-reverse">
             <button
               type="button"
               className="btn btn-outline-secondary"
@@ -157,7 +158,7 @@ const BlogListItem = ({
             >
               <EditIcon />
             </button>
-          </div>
+          </div>)}
         </div>
       </div>
       <DeleteConfirmationModal
