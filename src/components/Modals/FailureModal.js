@@ -1,13 +1,13 @@
 import { Modal, Button } from 'react-bootstrap';
 
-const SuccessModal = ({ showModal, closeModal, successMessage }) => {
+const FailureModal = ({ showModal, closeModal, errorMessage }) => {
   return (
     <Modal show={showModal} onHide={closeModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Success!</Modal.Title>
+        <Modal.Title>Operation Failed</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{successMessage || 'Operation successful'}</p>
+        <p>{errorMessage || "An error occurred during the operation."}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={closeModal}>
@@ -18,4 +18,4 @@ const SuccessModal = ({ showModal, closeModal, successMessage }) => {
   );
 };
 
-export default SuccessModal;
+export default FailureModal;

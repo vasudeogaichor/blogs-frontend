@@ -39,6 +39,12 @@ function App() {
               }
             />
             <Route
+              path="/:blogId/edit"
+              element={
+                  <BlogCreate />
+              }
+            />
+            <Route
               path="/login"
               element={<LoginPage />}
             />

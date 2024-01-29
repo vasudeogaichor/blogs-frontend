@@ -1,15 +1,38 @@
-import { useState } from "react";
-import { createBlog } from "../apis/blogs";
+import { useState, useEffect } from "react";
+import { createBlog, editBlog, getBlog } from "../apis/blogs";
 import SuccessModal from "./Modals/SuccessModal";
+import FailureModal from "./Modals/FailureModal";
+import { useParams } from 'react-router-dom';
 
 const BlogCreate = () => {
+  const { blogId } = useParams();
+  const isEdit = blogId ? true : false;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showFailureModal, setShowFailureModal] = useState(false);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+        try {
+            const blog = await getBlog(blogId);
+            setTitle(blog.title)
+            setContent(blog.content)
+        } catch (error) {
+            console.error('Error fetching blog:', error);
+        }
+    };
+
+    fetchBlog();
+}, [blogId]);
 
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
   };
+
+  const closeFailureModal = () => {
+    setShowFailureModal(false);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,21 +46,35 @@ const BlogCreate = () => {
       return;
     }
 
-    createBlog({ title, content })
-      .then((newBlog) => {
-        setTitle("");
-        setContent("");
-        setShowSuccessModal(true);
-      })
-      .catch((error) => {
-        console.error("Error creating blog:", error);
-      });
+    if (isEdit) {
+      editBlog(blogId, { title, content })
+        .then((editedBlog) => {
+          if (editedBlog.Error) {
+            setShowFailureModal(true);
+          } else {
+            setShowSuccessModal(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Error editing blog:", error);
+        })
+    } else {
+      createBlog({ title, content })
+        .then((newBlog) => {
+          setTitle("");
+          setContent("");
+          setShowSuccessModal(true);
+        })
+        .catch((error) => {
+          console.error("Error creating blog:", error);
+        });
+    }
   };
 
   return (
     <>
       <div className="container-fluid ">
-        <h2 className="mb-4">Create a new blog</h2>
+        <h2 className="mb-4">{isEdit ? 'Edit old blog' : 'Create a new blog'}</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -74,7 +111,8 @@ const BlogCreate = () => {
         </form>
       </div>
 
-      <SuccessModal showModal={showSuccessModal} closeModal={closeSuccessModal} />
+      <SuccessModal showModal={showSuccessModal} closeModal={closeSuccessModal} successMessage='Your blog has been successfully created / updated!' />
+      <FailureModal showModal={showFailureModal} closeModal={closeFailureModal} errorMessage='Failed to create/update blog.' />
     </>
   );
 };
