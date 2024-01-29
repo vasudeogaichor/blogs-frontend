@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { formatDateTime } from "../utils";
 import DeleteConfirmationModal from "./Modals/DeleteConfirmationModal";
-import { deleteBlog } from "../apis/blogs";
-import { listBlogs } from "../apis/blogs";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-import { BiCommentDetail, BiSolidCommentDetail } from "react-icons/bi";
+import { deleteBlog, listBlogs, handleBlogLike, handleBlogComment } from "../apis/blogs";
+import { AiOutlineLike } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
+
+import LikeIcon from "../assets/DeleteIcon";
+import EditIcon from "../assets/EditIcon";
 import { useNavigate } from "react-router-dom";
+import LoginRequiredModal from "./Modals/LoginRequiredModal";
+import AddCommentModal from "./Modals/AddCommentModal";
 
 const BlogListItem = ({
   blog,
@@ -13,12 +17,15 @@ const BlogListItem = ({
   setShowDeleteAlert,
   setAlertVariant,
   setDeleteAlertMessage,
+  loggedInUser
 }) => {
-  const {id, content, createdAt, title, likes, comments } = blog;
+  const { id, content, createdAt, title, likes, comments, user: createdByUser } = blog;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const trimmedContent = content.slice(0, 500);
   const [blogLikes, setBlogLikes] = useState(likes.length);
   const [blogComments, setBlogComments] = useState(comments.length);
+  const [showLoginRequiredModal, setShowLoginRequiredModal] = useState(false);
   const navigate = useNavigate();
 
   const handleDeleteButtonClicked = () => {
@@ -28,6 +35,10 @@ const BlogListItem = ({
   const closeDeleteModal = () => {
     setShowDeleteModal(false);
   };
+
+  const closeCommentModal = () => {
+    setShowAddCommentModal(false)
+  }
 
   const handleDelete = () => {
     deleteBlog(id)
@@ -57,10 +68,59 @@ const BlogListItem = ({
       });
   };
 
+  const handleAddRemoveLike = () => {
+    if (loggedInUser) {
+      const action = likes.includes(loggedInUser.userId) ? 'remove' : 'add'
+
+      handleBlogLike(id, { userId: loggedInUser.userId, action })
+        .then((result) => {
+          if (result.Error) {
+            if (result.Error === 'Unauthorized - Invalid token') {
+              setShowLoginRequiredModal(true);
+            }
+          } else {
+            setBlogLikes(result.data.likes.length)
+          }
+        })
+        .catch(err => {
+          console.log('Error: Error while adding/removing like: ', err)
+        })
+    }
+  }
+
+  const addNewComment = (comment) => {
+    const commentPayload = {
+      action: 'add',
+      userId: loggedInUser.userId,
+      text: comment
+    }
+
+    handleBlogComment(id, commentPayload)
+      .then(result => {
+        if (result.Error) {
+          if (result.Error === 'Unauthorized - Invalid token') {
+            setShowLoginRequiredModal(true);
+          }
+        } else {
+          setBlogComments(result.data.comments.length)
+        }
+      })
+      .catch(error => {
+        console.log('Error while updating comments: ', error)
+      })
+  }
+
+  const handleCommentButtonClicked = () => {
+    if (loggedInUser) {
+      setShowAddCommentModal(true)
+    }
+  }
+
   return (
     <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div className="col p-4 d-flex flex-column position-static">
-        <h3 className="mb-0">{title}</h3>
+        <h2 className="mb-0">{title}</h2>
+        <h6 className="fw-light">by {createdByUser.username}</h6>
         <div className="mb-1 text-muted">{formatDateTime(createdAt)}</div>
         <p className="card-text mb-auto">{trimmedContent}</p>
         <a href={`/${id}`}>Continue reading</a>
@@ -69,35 +129,25 @@ const BlogListItem = ({
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setBlogLikes(blogLikes + 1)}
+              onClick={handleAddRemoveLike}
             >
               <AiOutlineLike /> ({blogLikes})
             </button>
             <button
               type="button"
               className="btn btn-outline-secondary"
-              onClick={() => setBlogComments(blogComments + 1)}
+              onClick={handleCommentButtonClicked}
             >
               <BiCommentDetail /> ({blogComments})
             </button>
           </div>
-          <div className="d-flex flex-row-reverse">
+          {(loggedInUser?.userId === createdByUser._id ) && (<div className="d-flex flex-row-reverse">
             <button
               type="button"
               className="btn btn-outline-secondary"
               onClick={handleDeleteButtonClicked}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-trash"
-                viewBox="0 0 16 16"
-              >
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-              </svg>
+              <LikeIcon />
             </button>
             <button
               type="button"
@@ -106,22 +156,9 @@ const BlogListItem = ({
                 navigate(`/${id}/edit`);
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-pencil-square"
-                viewBox="0 0 16 16"
-              >
-                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                <path
-                  fillRule="evenodd"
-                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                />
-              </svg>
+              <EditIcon />
             </button>
-          </div>
+          </div>)}
         </div>
       </div>
       <DeleteConfirmationModal
@@ -129,9 +166,12 @@ const BlogListItem = ({
         closeModal={closeDeleteModal}
         handleDelete={handleDelete}
       />
+      <LoginRequiredModal showModal={showLoginRequiredModal} />
+      <AddCommentModal showModal={showAddCommentModal}
+        handleAddComment={addNewComment}
+        closeModal={closeCommentModal} />
     </div>
   );
 };
 
 export default BlogListItem;
-// TODO - Move svg files to separate files

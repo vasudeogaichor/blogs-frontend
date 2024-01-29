@@ -11,7 +11,7 @@ const BlogDetail = () => {
         const fetchBlog = async () => {
             try {
                 const blog = await getBlog(blogId);
-                setCurrentBlog(blog);
+                setCurrentBlog(blog.data);
             } catch (error) {
                 console.error('Error fetching blog:', error);
             }
@@ -27,7 +27,8 @@ const BlogDetail = () => {
     return (
         <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div className="col p-4 d-flex flex-column position-static">
-                <h3 className="mb-0">{currentBlog.title}</h3>
+                <h1 className="mb-0">{currentBlog.title}</h1>
+                <h6 className='fw-light'>by @{currentBlog.user.username}</h6>
                 <div className="mb-1 text-muted">{formatDateTime(currentBlog.created_at)}</div>
                 <p className="card-text mb-auto">{currentBlog.content}</p>
             </div>
