@@ -11,7 +11,7 @@ const BlogDetail = () => {
         const fetchBlog = async () => {
             try {
                 const blog = await getBlog(blogId);
-                setCurrentBlog(blog.data);
+                setCurrentBlog(blog);
             } catch (error) {
                 console.error('Error fetching blog:', error);
             }
