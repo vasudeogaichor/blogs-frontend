@@ -30,7 +30,7 @@ export const getBlog = async (id) => {
     },
   });
   const blog = await res.json();
-  return blog.message;
+  return blog.data;
 };
 
 // List a number of blogs
@@ -58,4 +58,19 @@ export const deleteBlog = async (id) => {
   });
   const status = res.status;
   return status;
+};
+
+// Edit a blog
+export const editBlog = async (id, editedBlog) => {
+  const token = getAuthToken();
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(editedBlog),
+  });
+  const data = await res.json();
+  return data;
 };
