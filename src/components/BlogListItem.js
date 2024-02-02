@@ -85,6 +85,8 @@ const BlogListItem = ({
         .catch(err => {
           console.log('Error: Error while adding/removing like: ', err)
         })
+    } else {
+      setShowLoginRequiredModal(true)
     }
   }
 
@@ -113,6 +115,8 @@ const BlogListItem = ({
   const handleCommentButtonClicked = () => {
     if (loggedInUser) {
       setShowAddCommentModal(true)
+    } else {
+      setShowLoginRequiredModal(true)
     }
   }
 
