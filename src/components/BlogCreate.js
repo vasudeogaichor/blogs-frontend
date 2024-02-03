@@ -73,7 +73,7 @@ const BlogCreate = () => {
 
   return (
     <>
-      <div className="container-fluid ">
+      <div className="container-fluid opacity-animation">
         <h2 className="mb-4">{isEdit ? 'Edit old blog' : 'Create a new blog'}</h2>
 
         <form onSubmit={handleSubmit}>

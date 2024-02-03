@@ -29,7 +29,7 @@ const Header = ({ setSearchResults }) => {
   }
 
   return (
-    <header className="d-flex flex-wrap mb-4 fixed-top">
+    <header className="d-flex flex-wrap mb-4 fixed-top opacity-animation">
       <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
