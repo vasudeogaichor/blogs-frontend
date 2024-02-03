@@ -27,7 +27,7 @@ const BlogList = ({ searchResults }) => {
   }, []);
 
   return (
-    <>
+    <div className="opacity-animation">
       {allBlogs?.map((blog) => (
         <BlogListItem
           key={blog.id}
@@ -36,7 +36,7 @@ const BlogList = ({ searchResults }) => {
           loggedInUser={loggedInUser}
         />
       ))}
-    </>
+    </div>
   );
 };
 

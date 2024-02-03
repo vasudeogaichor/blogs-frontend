@@ -121,7 +121,7 @@ const BlogListItem = ({
   }
 
   return (
-    <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+    <div className="slideup-opacity-animation row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
       <div className="col p-4 d-flex flex-column position-static">
         <h2 className="mb-0">{title}</h2>
         <h6 className="fw-light">by {createdByUser.username}</h6>

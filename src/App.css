@@ -28,13 +28,32 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes Component-opacity-animation {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
+}
+
+@keyframes Slide-up-animation {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slideup-opacity-animation {
+  animation: Slide-up-animation 0.5s ease
+}
+
+.opacity-animation {
+  animation: Component-opacity-animation 0.8s ease
 }
 
 button {

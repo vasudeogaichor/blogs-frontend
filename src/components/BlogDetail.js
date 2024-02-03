@@ -25,7 +25,7 @@ const BlogDetail = () => {
     }
 
     return (
-        <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative opacity-animation">
             <div className="col p-4 d-flex flex-column position-static">
                 <h1 className="mb-0">{currentBlog.title}</h1>
                 <h6 className='fw-light'>by @{currentBlog.user.username}</h6>

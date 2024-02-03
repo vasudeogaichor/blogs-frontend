@@ -41,7 +41,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="d-flex align-items-top justify-content-center vh-100">
+    <div className="d-flex align-items-top justify-content-center vh-100 opacity-animation">
       <Form className="w-50">
         <Form.Group className="mb-3" controlId="formBasicUsername">
           <Form.Label>Username</Form.Label>
