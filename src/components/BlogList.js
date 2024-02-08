@@ -8,8 +8,8 @@ const BlogList = ({ searchResults }) => {
   const { user: loggedInUser } = useAuth();
 
   useEffect(() => {
-    if (searchResults.length > 0) {
-      setAllBlogs(searchResults);
+    if (searchResults.data?.length) {
+      setAllBlogs(searchResults.data);
     }
   }, [searchResults]);
 
