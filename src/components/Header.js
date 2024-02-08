@@ -35,7 +35,7 @@ const Header = ({ setSearchResults }) => {
     <header className="d-flex flex-wrap mb-4 fixed-top opacity-animation">
       <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand d-flex align-items-center" href="/">
             <img
               id="logo"
               src="./logo.svg"
