@@ -10,7 +10,10 @@ const Header = ({ setSearchResults }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // TODO - add check for empty search string and raise browser alert
+    if (!searchTerm?.trim()?.length) {
+      return;
+    }
+    
     listBlogs({ query: searchTerm })
       .then((result) => {
         setSearchTerm("");
